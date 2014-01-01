@@ -18,7 +18,7 @@
 
 #include <stdint.h>
 #include <fitsio.h>
-#include "FInputFile.h"
+#include "InputFile.h"
 
 
 namespace qlbase {

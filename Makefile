@@ -234,7 +234,7 @@ clean:
 	$(DEL_FILE) *~ core *.core
 	$(DEL_FILE) $(LIB_DESTDIR)/*.a
 	$(DEL_FILE) $(LIB_DESTDIR)/*.so*
-	$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME)	
+	#$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME)	
 	$(DEL_FILE) version
 	$(DEL_FILE) prefix
 	$(DEL_FILE) $(PROJECT).dvi
