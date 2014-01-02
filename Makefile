@@ -228,6 +228,12 @@ makeobjdir:
 makelibdir:
 	test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)
 
+makeslice:
+	slice2cpp --output-dir code code/Astro.ice
+	slice2freeze --dict DBAgileEvt,double,Astro::agileEvt --dict DBAgileLog,Astro::agileLogKey,Astro::agileLog --output-dir code DBAstro code/Astro.ice
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $(SOURCE_DIR)/Astro.cpp -o $(OBJECTS_DIR)/Astro.o
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $(SOURCE_DIR)/DBAstro.cpp -o $(OBJECTS_DIR)/DBAstro.o
+
 #clean: delete all files from the current directory that are normally created by building the program. 
 clean:
 	$(DEL_FILE) $(OBJECTS_DIR)/*.o
