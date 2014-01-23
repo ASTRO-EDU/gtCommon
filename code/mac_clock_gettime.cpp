@@ -15,23 +15,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MACCLOCKGETTIME_H
-#define _MACCLOCKGETTIME_H
+#include "mac_clock_gettime.h"
 
-#define NANO 1000000000L
-
-#ifdef __MACH__
-#include <sys/time.h>
-#define CLOCK_REALTIME 0
-#define CLOCK_MONOTONIC 0
 //clock_gettime is not implemented on OSX
-int clock_gettime(int clk_id, struct timespec* t);
-#else
-#include <time.h>
-#endif
+int clock_gettime(int clk_id, struct timespec* t) {
+    struct timeval now;
+    int rv = gettimeofday(&now, NULL);
+    if (rv) return rv;
+    t->tv_sec  = now.tv_sec;
+    t->tv_nsec = now.tv_usec * 1000;
+    return 0;
+}
 
-double timediff(struct timespec start, struct timespec stop);
+double timediff(struct timespec start, struct timespec stop){
+	double secs = (stop.tv_sec - start.tv_sec) + (stop.tv_nsec - start.tv_nsec) / (double)NANO;
+	return secs;
+}
 
-long gettimensec();
+long gettimensec() {
+	struct timespec start;
+	clock_gettime( CLOCK_MONOTONIC, &start);
+	double nsecs =  start.tv_sec * NANO +  start.tv_nsec;
+	return (long) nsecs;
+}
 
-#endif
